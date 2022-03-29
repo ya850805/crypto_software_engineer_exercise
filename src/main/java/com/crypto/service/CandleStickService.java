@@ -1,5 +1,7 @@
 package com.crypto.service;
 
-public interface CandleStickService {
+import com.crypto.service.entity.CandleStickResponseEntity;
 
+public interface CandleStickService {
+    CandleStickResponseEntity getCandleStick();
 }
