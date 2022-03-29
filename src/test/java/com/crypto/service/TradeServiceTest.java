@@ -1,7 +1,7 @@
 package com.crypto.service;
 
 import com.crypto.service.constant.CryptoConstant;
-import com.crypto.service.entity.CandleStickResponseEntity;
+import com.crypto.service.entity.TradeResponseEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,17 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CandleStickServiceTest {
+public class TradeServiceTest {
     @Autowired
-    private CandleStickService candleStickService;
-
+    private TradeService tradeService;
+    
     @Test
-    @DisplayName("Test for get-candlestick request")
-    public void getCandleStick_BTC_USDTin5Minutes_ResponseCodeIs0() {
+    @DisplayName("Test for get-trades request")
+    public void getTrades_TradeBTC_USDT_ResponseCodeIs0() {
         String instrumentName = CryptoConstant.INSTRUMENT_BTC_USDT;
-        String period = CryptoConstant.PERIOD_FIVE_MINUTE;
 
-        CandleStickResponseEntity responseEntity = candleStickService.getCandleStick(instrumentName, period);
+        TradeResponseEntity responseEntity = tradeService.getTrades(instrumentName);
         Assertions.assertEquals(responseEntity.getCode(), CryptoConstant.SUCCESS_CODE);
     }
 }

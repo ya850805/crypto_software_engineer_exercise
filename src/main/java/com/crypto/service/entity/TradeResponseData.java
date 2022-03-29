@@ -9,7 +9,7 @@ public class TradeResponseData {
     /**
      * Reserved. Can be ignored
      */
-    private Long dateTime;
+    private Long dataTime;
 
     /**
      * Trade ID

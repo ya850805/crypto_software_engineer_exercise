@@ -12,18 +12,20 @@ public class CandleStickServiceImpl implements CandleStickService {
 
 
     @Override
-    public CandleStickResponseEntity getCandleStick() {
+    public CandleStickResponseEntity getCandleStick(String instrumentName, String period) {
         RestTemplate restTemplate = new RestTemplate();
 
         /**
-         * Concat URL.
+         * Concat request URL.
          */
         StringBuilder url = new StringBuilder();
         url.append(CryptoConstant.REQUEST_URL_PREFIX);
         url.append(CryptoConstant.REQUEST_URL_GET_CANDLESTICK);
-        url.append("instrument_name=BTC_USDT");
-        url.append("&");
-        url.append("timeframe=5m");
+        url.append(CryptoConstant.REQUEST_URL_PARAMETER_INSTRUMENT_NAME);
+        url.append(instrumentName);
+        url.append(CryptoConstant.REQUEST_URL_PARAMETER_CONCAT);
+        url.append(CryptoConstant.REQUEST_URL_PARAMETER_PERIOD);
+        url.append(period);
 
         /**
          * Send request.
