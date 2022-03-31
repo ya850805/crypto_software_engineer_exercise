@@ -4,6 +4,7 @@ import com.crypto.service.CandleStickService;
 import com.crypto.service.constant.CryptoConstant;
 import com.crypto.service.entity.CandleStickResponseData;
 import com.crypto.service.entity.CandleStickResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,11 +16,12 @@ import java.util.Map;
 
 @Service
 public class CandleStickServiceImpl implements CandleStickService {
-
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public CandleStickResponseEntity getCandleStick(String instrumentName, String period) {
-        RestTemplate restTemplate = new RestTemplate();
+//        RestTemplate restTemplate = new RestTemplate();
 
         /**
          * Builder request url, parameters and headers.

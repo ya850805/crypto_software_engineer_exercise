@@ -1,5 +1,7 @@
-package com.crypto.service;
+package com.crypto;
 
+import com.crypto.service.CandleStickService;
+import com.crypto.service.TradeService;
 import com.crypto.service.constant.CryptoConstant;
 import com.crypto.service.entity.CandleStickResponseData;
 import com.crypto.service.entity.TradeResponseData;
