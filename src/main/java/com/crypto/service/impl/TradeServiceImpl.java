@@ -5,6 +5,7 @@ import com.crypto.service.constant.CryptoConstant;
 import com.crypto.service.entity.TradeResponseData;
 import com.crypto.service.entity.TradeResponseEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,10 +17,11 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class TradeServiceImpl implements TradeService {
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Override
     public TradeResponseEntity getTrades(String instrumentName) {
-        RestTemplate restTemplate = new RestTemplate();
-
         /**
          * Builder request url, parameters and headers.
          */
@@ -65,7 +67,7 @@ public class TradeServiceImpl implements TradeService {
         List<TradeResponseData> allTradeDuringPeriod = new LinkedList<>();
         List<TradeResponseData> dataList = getTrades(instrumentName).getResult().getData();
 
-        while(dataList.stream().anyMatch(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0) || allTradeDuringPeriod.isEmpty()) {
+        while (dataList.stream().anyMatch(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0) || allTradeDuringPeriod.isEmpty()) {
             allTradeDuringPeriod.addAll(dataList.stream().filter(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0 && !allTradeDuringPeriod.contains(t)).collect(Collectors.toList()));
             dataList = getTrades(instrumentName).getResult().getData();
         }

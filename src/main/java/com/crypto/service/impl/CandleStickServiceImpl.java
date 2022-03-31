@@ -21,8 +21,6 @@ public class CandleStickServiceImpl implements CandleStickService {
 
     @Override
     public CandleStickResponseEntity getCandleStick(String instrumentName, String period) {
-//        RestTemplate restTemplate = new RestTemplate();
-
         /**
          * Builder request url, parameters and headers.
          */
