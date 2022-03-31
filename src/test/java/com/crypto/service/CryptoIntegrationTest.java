@@ -58,7 +58,7 @@ public class CryptoIntegrationTest {
          */
         System.out.println("Waiting to get first trade in time interval...");
         TradeResponseData trade = tradeService.getFirstTradeDuringEpochSecond(instrumentName, startEpochSecond);
-        System.out.println("Already get first trade.");
+        System.out.println("Already get trade.");
 
         System.out.println("====================");
 
@@ -114,7 +114,7 @@ public class CryptoIntegrationTest {
          */
         System.out.println("Waiting to get last trade in time interval...");
         TradeResponseData trade = tradeService.getLastTradeDuringEpochSecond(instrumentName, endEpochSecond);
-        System.out.println("Already get last trade.");
+        System.out.println("Already get trade.");
 
         System.out.println("====================");
 
@@ -136,7 +136,9 @@ public class CryptoIntegrationTest {
         Assertions.assertEquals(trade.getP().setScale(2, RoundingMode.DOWN), candleStick.getC().setScale(2, RoundingMode.DOWN));
     }
 
-
+    /**
+     * Verify highest.
+     */
     @Test
     @DisplayName("Verify highest price in next one minute.")
     public void VerifyTheHighestPriceAreEquals_BTC_USDTinNextOneMinute_HighestTradePriceIsEqualsToFollowingCandleStickHighestPrice() {
@@ -165,7 +167,7 @@ public class CryptoIntegrationTest {
          */
         System.out.println("Waiting to get highest trade in time interval...");
         TradeResponseData trade = tradeService.getHighestTradeDuringEpochSecond(instrumentName, startEpochSecond, endEpochSecond);
-        System.out.println("Already get last trade.");
+        System.out.println("Already get trade.");
 
         System.out.println("====================");
 
@@ -183,7 +185,60 @@ public class CryptoIntegrationTest {
          */
         System.out.println("Result: ");
         System.out.println("Highest trade price: " + trade.getP().setScale(2, RoundingMode.DOWN));
-        System.out.println("Candlestick high price: " + candleStick.getC().setScale(2, RoundingMode.DOWN));
+        System.out.println("Candlestick high price: " + candleStick.getH().setScale(2, RoundingMode.DOWN));
         Assertions.assertEquals(trade.getP().setScale(2, RoundingMode.DOWN), candleStick.getH().setScale(2, RoundingMode.DOWN));
+    }
+
+    /**
+     * Verify lowest.
+     */
+    @Test
+    @DisplayName("Verify highest price in next one minute.")
+    public void VerifyTheLowestPriceAreEquals_BTC_USDTinNextOneMinute_LowestTradePriceIsEqualsToFollowingCandleStickLowestPrice() {
+        String instrumentName = CryptoConstant.INSTRUMENT_BTC_USDT;
+        String period = CryptoConstant.PERIOD_ONE_MINUTE;
+
+        /**
+         * Get current timestamp plus one minute data.
+         * ex. now is 13:01:30 p.m., then get 13:02:00~13:02:59 data.
+         */
+        LocalDateTime nextMinute = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).plusMinutes(1);
+        Long startEpochSecond = nextMinute.atZone(TimeZone.getDefault().toZoneId()).toEpochSecond() * 1000;
+        Long endEpochSecond = startEpochSecond + TimeUtil.parseEpochSecond(period);
+
+        /**
+         * Print time interval or test.
+         */
+        System.out.println("Inquiry trade between: ");
+        LocalDateTime startDatetime = LocalDateTime.ofInstant(Instant.ofEpochMilli(startEpochSecond), TimeZone.getDefault().toZoneId());
+        System.out.println(startDatetime);
+        LocalDateTime endDatetime = LocalDateTime.ofInstant(Instant.ofEpochMilli(endEpochSecond), TimeZone.getDefault().toZoneId());
+        System.out.println(endDatetime);
+
+        /**
+         * Get lowest BTC_USTD trades between startEpochSecond and endEpochSecond.
+         */
+        System.out.println("Waiting to get lowest trade in time interval...");
+        TradeResponseData trade = tradeService.getLowestTradeDuringEpochSecond(instrumentName, startEpochSecond, endEpochSecond);
+        System.out.println("Already get trade.");
+
+        System.out.println("====================");
+
+        /**
+         * Get startEpochSecond BTC_USDT candle stick.
+         */
+        System.out.println("Waiting to get following candlestick data...");
+        CandleStickResponseData candleStick = candleStickService.getCandleStickByEndEpochSecond(instrumentName, period, startEpochSecond);
+        System.out.println("Already get candlestick.");
+
+        System.out.println("====================");
+
+        /**
+         *Compare the lowest trade price in period is equals to candlestick low price or not.
+         */
+        System.out.println("Result: ");
+        System.out.println("Lowest trade price: " + trade.getP().setScale(2, RoundingMode.DOWN));
+        System.out.println("Candlestick high price: " + candleStick.getL().setScale(2, RoundingMode.DOWN));
+        Assertions.assertEquals(trade.getP().setScale(2, RoundingMode.DOWN), candleStick.getL().setScale(2, RoundingMode.DOWN));
     }
 }
