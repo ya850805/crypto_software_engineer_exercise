@@ -65,31 +65,49 @@ public class TradeServiceImpl implements TradeService {
         return dataList.stream().filter(t -> t.getT().compareTo(endSecond) <= 0).reduce((t1, t2) -> t2).get();
     }
 
-    //TODO Need to refactor.
     @Override
     public TradeResponseData getHighestTradeDuringEpochSecond(String instrumentName, Long beginSecond, Long endSecond) {
         List<TradeResponseData> list = new LinkedList<>();
 
         List<TradeResponseData> dataList = getTrades(instrumentName).getResult().getData();
-        while(dataList.stream().anyMatch(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0) || list.isEmpty()) {
-            list.addAll(dataList.stream().filter(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0).collect(Collectors.toList()));
+
+        /**
+         * Fetch data then add to list continuously.
+         */
+        while (dataList.stream().anyMatch(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0) || list.isEmpty()) {
+            /**
+             * Add the data that didn't exist in list.
+             */
+            list.addAll(dataList.stream().filter(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0 && !list.contains(t)).collect(Collectors.toList()));
             dataList = getTrades(instrumentName).getResult().getData();
         }
 
+        /**
+         * Sorted the list by trade price descending, then get first element(highest price).
+         */
         return list.stream().sorted((t1, t2) -> -t1.getP().compareTo(t2.getP())).findFirst().get();
     }
 
-    //TODO Need to refactor.
     @Override
     public TradeResponseData getLowestTradeDuringEpochSecond(String instrumentName, Long beginSecond, Long endSecond) {
         List<TradeResponseData> list = new LinkedList<>();
 
         List<TradeResponseData> dataList = getTrades(instrumentName).getResult().getData();
-        while(dataList.stream().anyMatch(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0) || list.isEmpty()) {
-            list.addAll(dataList.stream().filter(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0).collect(Collectors.toList()));
+
+        /**
+         * Fetch data then add to list continuously.
+         */
+        while (dataList.stream().anyMatch(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0) || list.isEmpty()) {
+            /**
+             * Add the data that didn't exist in list.
+             */
+            list.addAll(dataList.stream().filter(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0 && !list.contains(t)).collect(Collectors.toList()));
             dataList = getTrades(instrumentName).getResult().getData();
         }
 
+        /**
+         * Sorted the list by trade price ascending, then get first element(lowest price).
+         */
         return list.stream().sorted(Comparator.comparing(TradeResponseData::getP)).findFirst().get();
     }
 }

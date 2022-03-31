@@ -193,7 +193,7 @@ public class CryptoIntegrationTest {
      * Verify lowest.
      */
     @Test
-    @DisplayName("Verify highest price in next one minute.")
+    @DisplayName("Verify lowest price in next one minute.")
     public void VerifyTheLowestPriceAreEquals_BTC_USDTinNextOneMinute_LowestTradePriceIsEqualsToFollowingCandleStickLowestPrice() {
         String instrumentName = CryptoConstant.INSTRUMENT_BTC_USDT;
         String period = CryptoConstant.PERIOD_ONE_MINUTE;
