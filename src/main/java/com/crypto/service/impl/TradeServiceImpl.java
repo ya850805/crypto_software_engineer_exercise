@@ -47,10 +47,16 @@ public class TradeServiceImpl implements TradeService {
     public TradeResponseData getFirstTradeDuringEpochSecond(String instrumentName, Long beginSecond) {
         List<TradeResponseData> dataList = getTrades(instrumentName).getResult().getData().stream().sorted(Comparator.comparingLong(t -> t.getT().longValue())).collect(Collectors.toList());
 
+        /**
+         * Fetch data then sort by trade timestamp continuously.
+         */
         while (!dataList.stream().anyMatch(t -> t.getT().compareTo(beginSecond) >= 0)) {
             dataList = getTrades(instrumentName).getResult().getData().stream().sorted(Comparator.comparingLong(t -> t.getT().longValue())).collect(Collectors.toList());
         }
 
+        /**
+         * Get first trade after beginSecond.
+         */
         return dataList.stream().filter(t -> t.getT().compareTo(beginSecond) >= 0).findFirst().get();
     }
 
