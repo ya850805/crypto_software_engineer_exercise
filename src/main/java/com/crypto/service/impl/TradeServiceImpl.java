@@ -5,12 +5,15 @@ import com.crypto.service.constant.CryptoConstant;
 import com.crypto.service.entity.TradeResponseData;
 import com.crypto.service.entity.TradeResponseEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -21,20 +24,24 @@ public class TradeServiceImpl implements TradeService {
         RestTemplate restTemplate = new RestTemplate();
 
         /**
-         * Concat request URL.
+         * Builder request url, parameters and headers.
          */
-        StringBuilder url = new StringBuilder();
-        url.append(CryptoConstant.REQUEST_URL_PREFIX);
-        url.append(CryptoConstant.REQUEST_URL_GET_TRADES);
-        url.append(CryptoConstant.REQUEST_URL_PARAMETER_INSTRUMENT_NAME);
-        url.append(instrumentName);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity httpEntity = new HttpEntity(headers);
+
+        String urlTemplate = UriComponentsBuilder.fromHttpUrl(CryptoConstant.REQUEST_TRADE_URL)
+                .queryParam(CryptoConstant.REQUEST_PARAM_INSTRUMENT_NAME, "{instrument_name}")
+                .encode()
+                .toUriString();
+
+        Map<String, String> params = new HashMap<>();
+        params.put(CryptoConstant.REQUEST_PARAM_INSTRUMENT_NAME, instrumentName);
 
         /**
          * Send request.
          */
-        ResponseEntity<TradeResponseEntity> tradeResponseEntity = restTemplate.getForEntity(url.toString(), TradeResponseEntity.class);
-
-        log.debug("get trades...");
+        ResponseEntity<TradeResponseEntity> tradeResponseEntity = restTemplate.exchange(urlTemplate, HttpMethod.GET, httpEntity, TradeResponseEntity.class, params);
 
         return tradeResponseEntity.getBody();
     }
@@ -54,7 +61,7 @@ public class TradeServiceImpl implements TradeService {
     public TradeResponseData getLastTradeDuringEpochSecond(String instrumentName, Long endSecond) {
         List<TradeResponseData> dataList = getTrades(instrumentName).getResult().getData().stream().sorted(Comparator.comparingLong(t -> t.getT().longValue())).collect(Collectors.toList());
 
-        while(!dataList.stream().anyMatch(t -> t.getT().compareTo(endSecond) > 0)) {
+        while (!dataList.stream().anyMatch(t -> t.getT().compareTo(endSecond) > 0)) {
             dataList = getTrades(instrumentName).getResult().getData().stream().sorted(Comparator.comparingLong(t -> t.getT().longValue())).collect(Collectors.toList());
         }
 

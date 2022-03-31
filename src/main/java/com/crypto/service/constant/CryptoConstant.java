@@ -4,12 +4,10 @@ public class CryptoConstant {
     /**
      * URL constant.
      */
-    public static final String REQUEST_URL_PREFIX = "https://api.crypto.com/v2/public/";
-    public static final String REQUEST_URL_GET_CANDLESTICK = "get-candlestick?";
-    public static final String REQUEST_URL_GET_TRADES = "get-trades?";
-    public static final String REQUEST_URL_PARAMETER_CONCAT = "&";
-    public static final String REQUEST_URL_PARAMETER_INSTRUMENT_NAME = "instrument_name=";
-    public static final String REQUEST_URL_PARAMETER_PERIOD = "timeframe=";
+    public static final String REQUEST_TRADE_URL = "https://api.crypto.com/v2/public/get-trades";
+    public static final String REQUEST_CANDLESTICK_URL = "https://api.crypto.com/v2/public/get-candlestick";
+    public static final String REQUEST_PARAM_INSTRUMENT_NAME = "instrument_name";
+    public static final String REQUEST_PARAM_PERIOD = "timeframe";
 
     /**
      * Instrument constant.
