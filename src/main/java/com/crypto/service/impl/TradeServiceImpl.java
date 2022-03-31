@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -66,5 +63,18 @@ public class TradeServiceImpl implements TradeService {
         }
 
         return dataList.stream().filter(t -> t.getT().compareTo(endSecond) <= 0).reduce((t1, t2) -> t2).get();
+    }
+
+    @Override
+    public TradeResponseData getHighestTradeDuringEpochSecond(String instrumentName, Long beginSecond, Long endSecond) {
+        List<TradeResponseData> list = new LinkedList<>();
+
+        List<TradeResponseData> dataList = getTrades(instrumentName).getResult().getData();
+        while(dataList.stream().anyMatch(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0) || list.isEmpty()) {
+            list.addAll(dataList.stream().filter(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0).collect(Collectors.toList()));
+            dataList = getTrades(instrumentName).getResult().getData();
+        }
+
+        return list.stream().sorted((t1, t2) -> -t1.getP().compareTo(t2.getP())).findFirst().get();
     }
 }

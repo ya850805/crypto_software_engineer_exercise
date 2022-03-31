@@ -8,4 +8,5 @@ public interface TradeService {
     TradeResponseEntity getTrades(String instrumentName);
     TradeResponseData getFirstTradeDuringEpochSecond(String instrumentName, Long beginSecond);
     TradeResponseData getLastTradeDuringEpochSecond(String instrumentName, Long endSecond);
+    TradeResponseData getHighestTradeDuringEpochSecond(String instrumentName, Long beginSecond, Long endSecond);
 }
