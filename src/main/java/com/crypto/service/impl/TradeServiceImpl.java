@@ -61,14 +61,16 @@ public class TradeServiceImpl implements TradeService {
     }
 
     @Override
-    public TradeResponseData getLastTradeDuringEpochSecond(String instrumentName, Long endSecond) {
-        List<TradeResponseData> dataList = getTrades(instrumentName).getResult().getData().stream().sorted(Comparator.comparingLong(t -> t.getT().longValue())).collect(Collectors.toList());
+    public TradeResponseData getLastTradeDuringEpochSecond(String instrumentName, Long beginSecond, Long endSecond) {
+        List<TradeResponseData> allTradeDuringPeriod = new LinkedList<>();
+        List<TradeResponseData> dataList = getTrades(instrumentName).getResult().getData();
 
-        while (!dataList.stream().anyMatch(t -> t.getT().compareTo(endSecond) > 0)) {
-            dataList = getTrades(instrumentName).getResult().getData().stream().sorted(Comparator.comparingLong(t -> t.getT().longValue())).collect(Collectors.toList());
+        while(dataList.stream().anyMatch(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0) || allTradeDuringPeriod.isEmpty()) {
+            allTradeDuringPeriod.addAll(dataList.stream().filter(t -> t.getT().compareTo(beginSecond) >= 0 && t.getT().compareTo(endSecond) <= 0 && !allTradeDuringPeriod.contains(t)).collect(Collectors.toList()));
+            dataList = getTrades(instrumentName).getResult().getData();
         }
 
-        return dataList.stream().filter(t -> t.getT().compareTo(endSecond) <= 0).reduce((t1, t2) -> t2).get();
+        return allTradeDuringPeriod.stream().sorted((t1, t2) -> -t1.getT().compareTo(t2.getT())).findFirst().get();
     }
 
     @Override

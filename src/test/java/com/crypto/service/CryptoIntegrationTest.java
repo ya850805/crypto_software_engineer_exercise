@@ -30,7 +30,7 @@ public class CryptoIntegrationTest {
      */
     @Test
     @DisplayName("Verify open price in next one minute.")
-    public void VerifyTheOpenPriceAreEquals_BTC_USDTinNextOneMinute_FirstTradePriceIsEqualsToFollowingCandleStickOpenPrice() {
+    public void VerifyTheOpenPriceAreEquals_BTC_USDTinNextOneMinute_FirstTradePriceIsEqualsToFollowingCandleStickOpenPrice() throws InterruptedException {
         String instrumentName = CryptoConstant.INSTRUMENT_BTC_USDT;
         String period = CryptoConstant.PERIOD_ONE_MINUTE;
 
@@ -63,6 +63,12 @@ public class CryptoIntegrationTest {
         System.out.println("====================");
 
         /**
+         * Waiting to generate following candlestick.
+         */
+        System.out.println("Waiting to generate following candlestick...");
+        Thread.sleep(TimeUtil.parseEpochSecond(CryptoConstant.PERIOD_ONE_MINUTE));
+
+        /**
          * Get startEpochSecond BTC_USDT candle stick.
          */
         System.out.println("Waiting to get following candlestick data...");
@@ -80,13 +86,12 @@ public class CryptoIntegrationTest {
         Assertions.assertEquals(trade.getP().setScale(2, RoundingMode.DOWN), candleStick.getO().setScale(2, RoundingMode.DOWN));
     }
 
-    //TODO fix
     /**
      * Verify "Close" price.
      */
     @Test
     @DisplayName("Verify close price in next one minute.")
-    public void VerifyTheClosePriceAreEquals_BTC_USDTinNextOneMinute_LastTradePriceIsEqualsToFollowingCandleStickClosePrice() {
+    public void VerifyTheClosePriceAreEquals_BTC_USDTinNextOneMinute_LastTradePriceIsEqualsToFollowingCandleStickClosePrice() throws InterruptedException {
         String instrumentName = CryptoConstant.INSTRUMENT_BTC_USDT;
         String period = CryptoConstant.PERIOD_ONE_MINUTE;
 
@@ -113,10 +118,16 @@ public class CryptoIntegrationTest {
          * Get last BTC_USTD trades between startEpochSecond and endEpochSecond.
          */
         System.out.println("Waiting to get last trade in time interval...");
-        TradeResponseData trade = tradeService.getLastTradeDuringEpochSecond(instrumentName, endEpochSecond);
+        TradeResponseData trade = tradeService.getLastTradeDuringEpochSecond(instrumentName, startEpochSecond, endEpochSecond);
         System.out.println("Already get trade.");
 
         System.out.println("====================");
+
+        /**
+         * Waiting to generate following candlestick.
+         */
+        System.out.println("Waiting to generate following candlestick...");
+        Thread.sleep(TimeUtil.parseEpochSecond(CryptoConstant.PERIOD_ONE_MINUTE));
 
         /**
          * Get startEpochSecond BTC_USDT candle stick.
@@ -141,7 +152,7 @@ public class CryptoIntegrationTest {
      */
     @Test
     @DisplayName("Verify highest price in next one minute.")
-    public void VerifyTheHighestPriceAreEquals_BTC_USDTinNextOneMinute_HighestTradePriceIsEqualsToFollowingCandleStickHighestPrice() {
+    public void VerifyTheHighestPriceAreEquals_BTC_USDTinNextOneMinute_HighestTradePriceIsEqualsToFollowingCandleStickHighestPrice() throws InterruptedException {
         String instrumentName = CryptoConstant.INSTRUMENT_BTC_USDT;
         String period = CryptoConstant.PERIOD_ONE_MINUTE;
 
@@ -172,6 +183,12 @@ public class CryptoIntegrationTest {
         System.out.println("====================");
 
         /**
+         * Waiting to generate following candlestick.
+         */
+        System.out.println("Waiting to generate following candlestick...");
+        Thread.sleep(TimeUtil.parseEpochSecond(CryptoConstant.PERIOD_ONE_MINUTE));
+
+        /**
          * Get startEpochSecond BTC_USDT candle stick.
          */
         System.out.println("Waiting to get following candlestick data...");
@@ -194,7 +211,7 @@ public class CryptoIntegrationTest {
      */
     @Test
     @DisplayName("Verify lowest price in next one minute.")
-    public void VerifyTheLowestPriceAreEquals_BTC_USDTinNextOneMinute_LowestTradePriceIsEqualsToFollowingCandleStickLowestPrice() {
+    public void VerifyTheLowestPriceAreEquals_BTC_USDTinNextOneMinute_LowestTradePriceIsEqualsToFollowingCandleStickLowestPrice() throws InterruptedException {
         String instrumentName = CryptoConstant.INSTRUMENT_BTC_USDT;
         String period = CryptoConstant.PERIOD_ONE_MINUTE;
 
@@ -234,11 +251,17 @@ public class CryptoIntegrationTest {
         System.out.println("====================");
 
         /**
+         * Waiting to generate following candlestick.
+         */
+        System.out.println("Waiting to generate following candlestick...");
+        Thread.sleep(TimeUtil.parseEpochSecond(CryptoConstant.PERIOD_ONE_MINUTE));
+
+        /**
          *Compare the lowest trade price in period is equals to candlestick low price or not.
          */
         System.out.println("Result: ");
         System.out.println("Lowest trade price: " + trade.getP().setScale(2, RoundingMode.DOWN));
-        System.out.println("Candlestick high price: " + candleStick.getL().setScale(2, RoundingMode.DOWN));
+        System.out.println("Candlestick low price: " + candleStick.getL().setScale(2, RoundingMode.DOWN));
         Assertions.assertEquals(trade.getP().setScale(2, RoundingMode.DOWN), candleStick.getL().setScale(2, RoundingMode.DOWN));
     }
 }
