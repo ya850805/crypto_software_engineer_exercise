@@ -15,9 +15,9 @@ public class CandleStickServiceTest {
 
     @Test
     @DisplayName("Test for get-candlestick request")
-    public void getCandleStick_BTC_USDTin5Minutes_ResponseCodeIs0() {
+    public void getCandleStick_BTC_USDTin1Minutes_ResponseCodeIs0() {
         String instrumentName = CryptoConstant.INSTRUMENT_BTC_USDT;
-        String period = CryptoConstant.PERIOD_FIVE_MINUTE;
+        String period = CryptoConstant.PERIOD_ONE_MINUTE;
 
         CandleStickResponseEntity responseEntity = candleStickService.getCandleStick(instrumentName, period);
         Assertions.assertEquals(responseEntity.getCode(), CryptoConstant.SUCCESS_CODE);
