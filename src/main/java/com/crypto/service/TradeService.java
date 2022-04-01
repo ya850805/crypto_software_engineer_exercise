@@ -1,7 +1,7 @@
 package com.crypto.service;
 
-import com.crypto.service.entity.TradeResponseData;
-import com.crypto.service.entity.TradeResponseEntity;
+import com.crypto.entity.TradeResponseData;
+import com.crypto.entity.TradeResponseEntity;
 
 public interface TradeService {
     TradeResponseEntity getTrades(String instrumentName);

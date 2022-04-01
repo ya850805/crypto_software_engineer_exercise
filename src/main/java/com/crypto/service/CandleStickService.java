@@ -1,7 +1,7 @@
 package com.crypto.service;
 
-import com.crypto.service.entity.CandleStickResponseData;
-import com.crypto.service.entity.CandleStickResponseEntity;
+import com.crypto.entity.CandleStickResponseData;
+import com.crypto.entity.CandleStickResponseEntity;
 
 public interface CandleStickService {
     CandleStickResponseEntity getCandleStick(String instrumentName, String period);

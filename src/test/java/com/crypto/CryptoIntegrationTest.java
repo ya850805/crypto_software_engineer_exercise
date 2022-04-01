@@ -2,9 +2,9 @@ package com.crypto;
 
 import com.crypto.service.CandleStickService;
 import com.crypto.service.TradeService;
-import com.crypto.service.constant.CryptoConstant;
-import com.crypto.service.entity.CandleStickResponseData;
-import com.crypto.service.entity.TradeResponseData;
+import com.crypto.constant.CryptoConstant;
+import com.crypto.entity.CandleStickResponseData;
+import com.crypto.entity.TradeResponseData;
 import com.crypto.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;

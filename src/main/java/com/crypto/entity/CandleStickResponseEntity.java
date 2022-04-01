@@ -1,4 +1,4 @@
-package com.crypto.service.entity;
+package com.crypto.entity;
 
 import lombok.Data;
 

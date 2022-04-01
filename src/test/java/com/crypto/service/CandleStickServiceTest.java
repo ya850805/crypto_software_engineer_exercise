@@ -1,9 +1,9 @@
 package com.crypto.service;
 
-import com.crypto.service.constant.CryptoConstant;
-import com.crypto.service.entity.CandleStickResponseData;
-import com.crypto.service.entity.CandleStickResponseEntity;
-import com.crypto.service.entity.CandleStickResponseResult;
+import com.crypto.constant.CryptoConstant;
+import com.crypto.entity.CandleStickResponseData;
+import com.crypto.entity.CandleStickResponseEntity;
+import com.crypto.entity.CandleStickResponseResult;
 import com.crypto.service.impl.CandleStickServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;

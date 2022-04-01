@@ -1,9 +1,9 @@
 package com.crypto.service.impl;
 
 import com.crypto.service.CandleStickService;
-import com.crypto.service.constant.CryptoConstant;
-import com.crypto.service.entity.CandleStickResponseData;
-import com.crypto.service.entity.CandleStickResponseEntity;
+import com.crypto.constant.CryptoConstant;
+import com.crypto.entity.CandleStickResponseData;
+import com.crypto.entity.CandleStickResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;

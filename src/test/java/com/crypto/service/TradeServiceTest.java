@@ -1,9 +1,9 @@
 package com.crypto.service;
 
-import com.crypto.service.constant.CryptoConstant;
-import com.crypto.service.entity.TradeResponseData;
-import com.crypto.service.entity.TradeResponseEntity;
-import com.crypto.service.entity.TradeResponseResult;
+import com.crypto.constant.CryptoConstant;
+import com.crypto.entity.TradeResponseData;
+import com.crypto.entity.TradeResponseEntity;
+import com.crypto.entity.TradeResponseResult;
 import com.crypto.service.impl.TradeServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;

@@ -1,4 +1,4 @@
-package com.crypto.service.constant;
+package com.crypto.constant;
 
 public class CryptoConstant {
     /**

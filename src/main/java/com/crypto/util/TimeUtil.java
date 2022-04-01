@@ -1,6 +1,6 @@
 package com.crypto.util;
 
-import com.crypto.service.constant.CryptoConstant;
+import com.crypto.constant.CryptoConstant;
 
 public class TimeUtil {
     public static Long parseEpochSecond(String period) {
