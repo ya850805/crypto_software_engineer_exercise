@@ -244,6 +244,12 @@ public class CryptoIntegrationTest {
         System.out.println("====================");
 
         /**
+         * Waiting to generate following candlestick.
+         */
+        System.out.println("Waiting to generate following candlestick...");
+        Thread.sleep(TimeUtil.parseEpochSecond(CryptoConstant.PERIOD_ONE_MINUTE));
+
+        /**
          * Get startEpochSecond BTC_USDT candle stick.
          */
         System.out.println("Waiting to get following candlestick data...");
@@ -251,12 +257,6 @@ public class CryptoIntegrationTest {
         System.out.println("Already get candlestick.");
 
         System.out.println("====================");
-
-        /**
-         * Waiting to generate following candlestick.
-         */
-        System.out.println("Waiting to generate following candlestick...");
-        Thread.sleep(TimeUtil.parseEpochSecond(CryptoConstant.PERIOD_ONE_MINUTE));
 
         /**
          *Compare the lowest trade price in period is equals to candlestick low price or not.
